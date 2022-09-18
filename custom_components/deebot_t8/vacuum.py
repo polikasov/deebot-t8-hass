@@ -160,13 +160,7 @@ class DeebotT8VacuumEntity(SubscribedEntityMixin, StateVacuumEntity):
             'clean_count': self.api_entity.state.clean_count,
             'true_detect_enabled': self.api_entity.state.true_detect_enabled,
             'cleaning_preference_enabled': self.api_entity.state.cleaning_preference_enabled,
+            'lifespan': self.api_entity.state.lifespan,
         }
-
-        if self.api_entity.state.lifespan is not None:
-            for lifespan in self.api_entity.state.lifespan:
-                component_snake = re.sub(
-                    r'(?<!^)(?=[A-Z])', '_', lifespan.component).lower()
-                perc = round(lifespan.left / lifespan.total * 100, 1)
-                attrs[f'lifespan_{component_snake}'] = f'{perc}%'
 
         return attrs
