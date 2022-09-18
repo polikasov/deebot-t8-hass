@@ -114,7 +114,7 @@ async def async_setup_entry(hass, config_entry: ConfigEntry,
                 entity,
                 'Unit Care',
                 '%',
-                'mdi:filter',
+                'mdi:hand-heart',
                 lambda: round(entity.state.lifespan.get('unitCare').left / entity.state.lifespan.get('unitCare').total *
                               100, 1) if entity.state.lifespan is not None else None,
             ),
