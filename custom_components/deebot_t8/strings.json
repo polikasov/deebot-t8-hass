@@ -10,7 +10,8 @@
           "password": "[%key:common::config_flow::data::password%]",
           "country": "[%key:common::config_flow::data::country%]",
           "continent": "[%key:common::config_flow::data::continent%]",
-          "about_continent": "[%key:common::config_flow::data::about_continent%]"
+          "about_continent": "[%key:common::config_flow::data::about_continent%]",
+          "vendor": "[%key:common::config_flow::data::vendor%]"
         }
       }
     },

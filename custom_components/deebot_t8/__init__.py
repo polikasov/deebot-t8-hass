@@ -12,7 +12,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from .const import (
     DOMAIN, ATTR_PASSWORD_HASH, ATTR_EMAIL, ATTR_COUNTRY,
-    ATTR_CONTINENT, ATTR_DEVICE_ID, ATTR_CREDENTIALS)
+    ATTR_VENDOR, ATTR_CONTINENT, ATTR_DEVICE_ID, ATTR_CREDENTIALS)
 
 PLATFORMS = ["vacuum", "switch", "binary_sensor", "sensor"]
 
@@ -44,6 +44,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     account_id = entry.data[ATTR_EMAIL]
     password_hash = entry.data[ATTR_PASSWORD_HASH]
     country = entry.data[ATTR_COUNTRY]
+    vendor = entry.data[ATTR_VENDOR]
     continent = entry.data[ATTR_CONTINENT]
 
     credentials_data = entry.data.get(ATTR_CREDENTIALS)
@@ -66,6 +67,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         portal_client=portal_client,
         device_id=device_id,
         country=country,
+        vendor=vendor,
     )
     authenticator = Authenticator(
         auth_client=auth_client,

@@ -8,13 +8,14 @@ ATTR_PASSWORD = "password"
 ATTR_PASSWORD_HASH = "password_hash"
 ATTR_COUNTRY = "country"
 ATTR_CONTINENT = "continent"
+ATTR_VENDOR = "vendor"
 ATTR_DEVICE_ID = "device_id"
 ATTR_CREDENTIALS = "credentials"
 
 # CH: msg.ecouser.net
 # TW, MY, JP, SG, TH, HK, IN, KR: msg-as.ecouser.net
 # US: msg-na.ecouser.net
-# FR, ES, UK, NO, MX, DE, PT, CH, AU, IT, NL, SE, BE, DK: msg-eu.ecouser.net
+# FR, ES, UK, NO, MX, DE, PT, CH, AU, IT, NL, SE, BE, DK, RU: msg-eu.ecouser.net
 # Any other country: msg-ww.ecouser.net
 
 SERVER_COUNTRIES = [
@@ -22,7 +23,7 @@ SERVER_COUNTRIES = [
     "TW", "MY", "JP", "SG", "TH", "HK", "IN", "KR",
     "US",
     "FR", "ES", "UK", "NO", "MX", "DE", "PT", "CH", "AU", "IT", "NL", "SE",
-    "BE", "DK",
+    "BE", "DK", "RU",
 ]
 SERVER_CONTINENTS = [
     "CN",
@@ -30,6 +31,10 @@ SERVER_CONTINENTS = [
     "NA",
     "EU",
     "WW"
+]
+SERVER_VENDORS = [
+    "ecovacs",
+    "yeedi"
 ]
 
 FAN_SPEEDS = [

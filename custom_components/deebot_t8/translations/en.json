@@ -16,7 +16,8 @@
                     "password": "Password",
                     "country": "Country",
                     "continent": "Continent",
-                    "about_continent": "about continent here"
+                    "about_continent": "about continent here",
+                    "vendor": "Vendor"
                 }
             }
         }
