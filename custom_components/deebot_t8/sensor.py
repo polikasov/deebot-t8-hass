@@ -86,6 +86,38 @@ async def async_setup_entry(hass, config_entry: ConfigEntry,
                 'mdi:water',
                 lambda: WATER_LEVEL_NAME_MAP.get(entity.state.water_level),
             ),
+            DeebotGenericSensor(
+                entity,
+                'Main Brush',
+                '%',
+                'mdi:broom',
+                lambda: round(entity.state.lifespan.get('brush').left / entity.state.lifespan.get('brush').total *
+                              100, 1) if entity.state.lifespan is not None else None,
+            ),
+            DeebotGenericSensor(
+                entity,
+                'Side Brush',
+                '%',
+                'mdi:broom',
+                lambda: round(entity.state.lifespan.get('sideBrush').left / entity.state.lifespan.get('sideBrush').total *
+                              100, 1) if entity.state.lifespan is not None else None,
+            ),
+            DeebotGenericSensor(
+                entity,
+                'Filter',
+                '%',
+                'mdi:filter',
+                lambda: round(entity.state.lifespan.get('heap').left / entity.state.lifespan.get('heap').total *
+                              100, 1) if entity.state.lifespan is not None else None,
+            ),
+            DeebotGenericSensor(
+                entity,
+                'Unit Care',
+                '%',
+                'mdi:hand-heart',
+                lambda: round(entity.state.lifespan.get('unitCare').left / entity.state.lifespan.get('unitCare').total *
+                              100, 1) if entity.state.lifespan is not None else None,
+            ),
         ])
 
     async_add_entities(to_add)
