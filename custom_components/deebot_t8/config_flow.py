@@ -15,8 +15,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from .const import (
-    DOMAIN, SERVER_CONTINENTS, SERVER_COUNTRIES, ATTR_CONTINENT,
-    ATTR_COUNTRY, ATTR_PASSWORD, ATTR_EMAIL, ATTR_PASSWORD_HASH,
+    DOMAIN, SERVER_CONTINENTS, SERVER_COUNTRIES, SERVER_VENDORS, ATTR_CONTINENT,
+    ATTR_COUNTRY, ATTR_VENDOR, ATTR_PASSWORD, ATTR_EMAIL, ATTR_PASSWORD_HASH,
     ATTR_DEVICE_ID)
 
 _LOGGER = logging.getLogger(__name__)
@@ -28,12 +28,13 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Required(ATTR_PASSWORD): str,
         vol.Required(ATTR_COUNTRY): vol.In(SERVER_COUNTRIES),
         vol.Required(ATTR_CONTINENT, description="about_continent"): vol.In(SERVER_CONTINENTS),
+        vol.Required(ATTR_VENDOR): vol.In(SERVER_VENDORS),
     }
 )
 
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[
-    str, Any]:
+        str, Any]:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
@@ -41,6 +42,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[
     device_id = md5_hex(str(time.time()))
     continent = data[ATTR_CONTINENT]
     country = data[ATTR_COUNTRY]
+    vendor = data[ATTR_VENDOR]
     email = data[ATTR_EMAIL]
     password = data[ATTR_PASSWORD]
     password_hash = md5_hex(password)
@@ -48,7 +50,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[
     portal_client = PortalClient(device_id=device_id, country=country,
                                  continent=continent)
     auth_client = DeebotAuthClient(portal_client=portal_client,
-                                   device_id=device_id, country=country)
+                                   device_id=device_id, country=country,
+                                   vendor=vendor)
     try:
         await hass.async_add_executor_job(
             auth_client.login, email, password_hash
@@ -62,6 +65,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[
         ATTR_PASSWORD_HASH: password_hash,
         ATTR_COUNTRY: country,
         ATTR_CONTINENT: continent,
+        ATTR_VENDOR: vendor,
     }
 
 
