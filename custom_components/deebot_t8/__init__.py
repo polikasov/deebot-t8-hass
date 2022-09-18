@@ -72,7 +72,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     authenticator = Authenticator(
         auth_client=auth_client,
         country=country,
-        vendor=vendor,
         device_id=device_id,
         account_id=account_id,
         password_hash=password_hash,
