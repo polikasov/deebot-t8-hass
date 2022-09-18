@@ -69,7 +69,7 @@ async def async_setup_entry(hass, config_entry: ConfigEntry,
                 'Avoid Count',
                 "avoidances",
                 'mdi:undo-variant',
-                lambda: entity.state.clean_stats.avoid_count if entity.state.clean_stats is not None else None,
+                lambda: entity.state.clean_stats.avoid_count if entity.state.clean_stats and entity.state.clean_stats.avoid_count is not None else None,
             ),
             DeebotGenericSensor(
                 entity,
