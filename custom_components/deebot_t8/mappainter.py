@@ -62,7 +62,7 @@ class MapPainter(object):
         pass
 
     def save(self):
-        print("saving", json.dumps(vars(self)))
+        # print("saving", json.dumps(vars(self)))
         f = open("painter/mapdb.json", "w")
         f.write(json.dumps(self, default = lambda x: self.toJsonable(x)))
         f.close()
@@ -98,8 +98,8 @@ class MapPainter(object):
                 y1 = point[1] - 5 + self.CENTER_MOVE
                 x2 = point[0] + 5 + self.CENTER_MOVE
                 y2 = point[1] + 5 + self.CENTER_MOVE
-                print(self.SIZE_X, x1, x2)
-                print(self.SIZE_Y, y1, y2)
+                # print(self.SIZE_X, x1, x2)
+                # print(self.SIZE_Y, y1, y2)
                 draw.ellipse((x1, y1, x2, y2), fill=(255, 0, 0), outline=(0, 0, 0))   
                 if prev_line != -1:
                     _x1, _y1 = point[0] + self.CENTER_MOVE, point[1] + self.CENTER_MOVE
