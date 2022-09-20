@@ -77,13 +77,17 @@ class MapPainter(object):
         
 
     def add(self, x,y,z = 0):
-        fname = self.getCurFileName()
         x += 5
         y += 5
         if len(self.POINT_ARRAY) > 0:
             if self.POINT_ARRAY[-1] == (x,y):
-                return 0
+                return x, y
         self.POINT_ARRAY += [(x,y)]
+        self.save()
+        return x, y
+    
+    def paint(self):
+        fname = self.getCurFileName()
         mn_number = min(sorted(self.POINT_ARRAY,  key = lambda x: min(x))[0])
         mx_number = max(sorted(self.POINT_ARRAY,  key = lambda x: max(x))[-1])
         if mn_number < 0:
@@ -115,7 +119,6 @@ class MapPainter(object):
                 # break
             _img.save(fname)
         self.save()
-        return x, y
 
     def reset(self):
         if self.POINT_ARRAY == []:
