@@ -80,6 +80,9 @@ class MapPainter(object):
         fname = self.getCurFileName()
         x += 5
         y += 5
+        if len(self.POINT_ARRAY) > 0:
+            if self.POINT_ARRAY[-1] == (x,y):
+                return 0
         self.POINT_ARRAY += [(x,y)]
         mn_number = min(sorted(self.POINT_ARRAY,  key = lambda x: min(x))[0])
         mx_number = max(sorted(self.POINT_ARRAY,  key = lambda x: max(x))[-1])
