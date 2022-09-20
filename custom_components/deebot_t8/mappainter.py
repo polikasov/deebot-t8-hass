@@ -126,4 +126,4 @@ class MapPainter(object):
         self.save()
 
     def getFilePath(self):
-        return self.getCurFileName()
+        return self.getCurFileName().replace("www/", "/local/")
