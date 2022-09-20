@@ -26,11 +26,11 @@ class MapPainter(object):
 
     def initDirs(self):
         if not os.path.exists("www/painter/"):
-            os.mkdir("painter")
+            os.mkdir("www/painter")
             os.mkdir("www/painter/maps")
         if not os.path.exists("www/painter/mapdb.json"):
             self.save()
-            self.imitNewMap()
+            self.initNewMap()
 
     def load(self):
         if not os.path.exists("www/painter/mapdb.json"):
@@ -115,7 +115,7 @@ class MapPainter(object):
                 # break
             _img.save(fname)
         self.save()
-        pass
+        return x, y
 
     def reset(self):
         if self.POINT_ARRAY == []:

@@ -4,7 +4,7 @@
   "version": "1.2.0",
   "config_flow": true,
   "requirements": [
-    "git+https://github.com/polikasov/deebot-t8.git@1.1.1-lifespan#deebot-t8==1.1.1",
+    "git+https://github.com/polikasov/deebot-t8.git@1.2.0-rc3#deebot-t8==1.2.0",
     "Pillow==9.2.0"
   ],
   "ssdp": [],

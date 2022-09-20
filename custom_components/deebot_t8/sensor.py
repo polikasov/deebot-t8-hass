@@ -5,6 +5,7 @@ from deebot_t8 import DeebotEntity
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from . import DataEntry
+from .mappainter import MapPainter
 from .const import (
     DOMAIN, CLEAN_TYPE_MAP, WATER_LEVEL_NAME_MAP, FAN_SPEED_NAME_MAP)
 from .subscribed_entity_mixin import SubscribedEntityMixin
@@ -15,6 +16,7 @@ async def async_setup_entry(hass, config_entry: ConfigEntry,
     """Add switches for passed config_entry in HA."""
     entry_data: DataEntry = hass.data[DOMAIN][config_entry.entry_id]
     to_add = []
+    mapper = MapPainter()
     for entity in entry_data.entities:
         to_add.extend([
             DeebotGenericSensor(
@@ -70,6 +72,7 @@ async def async_setup_entry(hass, config_entry: ConfigEntry,
                 "avoidances",
                 'mdi:undo-variant',
                 lambda: entity.state.clean_stats.avoid_count if entity.state.clean_stats and entity.state.clean_stats.avoid_count is not None else None,
+                False,
             ),
             DeebotGenericSensor(
                 entity,
@@ -117,6 +120,14 @@ async def async_setup_entry(hass, config_entry: ConfigEntry,
                 'mdi:hand-heart',
                 lambda: round(entity.state.lifespan.get('unitCare').left / entity.state.lifespan.get('unitCare').total *
                               100, 1) if entity.state.lifespan is not None else None,
+            ),
+            DeebotGenericSensor(
+                entity,
+                'Position',
+                "",
+                'mdi:shape-square-plus',
+                # lambda: f"{entity.state.position.get('x')}, {entity.state.position.get('y')}" if entity.state.position is not None else None,
+                lambda: mapper.add(x=entity.state.position.get('x'), y=entity.state.position.get('y')) if entity.state.position is not None else None,
             ),
         ])
 

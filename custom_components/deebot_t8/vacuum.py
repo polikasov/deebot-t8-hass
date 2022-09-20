@@ -161,6 +161,7 @@ class DeebotT8VacuumEntity(SubscribedEntityMixin, StateVacuumEntity):
             'true_detect_enabled': self.api_entity.state.true_detect_enabled,
             'cleaning_preference_enabled': self.api_entity.state.cleaning_preference_enabled,
             'lifespan': self.api_entity.state.lifespan,
+            'position': self.api_entity.state.position,
         }
 
         return attrs
