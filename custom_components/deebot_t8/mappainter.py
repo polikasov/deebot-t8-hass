@@ -25,18 +25,18 @@ class MapPainter(object):
             return {}
 
     def initDirs(self):
-        if not os.path.exists("painter/"):
+        if not os.path.exists("www/painter/"):
             os.mkdir("painter")
-            os.mkdir("painter/maps")
-        if not os.path.exists("painter/mapdb.json"):
+            os.mkdir("www/painter/maps")
+        if not os.path.exists("www/painter/mapdb.json"):
             self.save()
             self.imitNewMap()
 
     def load(self):
-        if not os.path.exists("painter/mapdb.json"):
+        if not os.path.exists("www/painter/mapdb.json"):
             self.initDirs()
             return self.load()
-        f = open("painter/mapdb.json", "r")
+        f = open("www/painter/mapdb.json", "r")
         res = json.loads(f.readline())
         f.close()
         try:
@@ -63,11 +63,11 @@ class MapPainter(object):
 
     def save(self):
         # print("saving", json.dumps(vars(self)))
-        f = open("painter/mapdb.json", "w")
+        f = open("www/painter/mapdb.json", "w")
         f.write(json.dumps(self, default = lambda x: self.toJsonable(x)))
         f.close()
     def getCurFileName(self):
-        return "painter/maps/map_" + str(self.CURRENT_MAP_ID) + ".png"
+        return "www/painter/maps/map_" + str(self.CURRENT_MAP_ID) + ".png"
 
     def initNewMap(self):
         fname = self.getCurFileName()
