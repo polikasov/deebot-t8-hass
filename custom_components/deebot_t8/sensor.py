@@ -1,5 +1,5 @@
 from ast import Sub
-from typing import Optional
+from typing import Optional, Any
 
 from deebot_t8 import DeebotEntity
 
@@ -152,6 +152,7 @@ class DeebotGenericCamera(Camera):
         self._imagePath: str | None = None
         self.mapupdater = mapUpdater
         self.paint = painter
+        self._name = name
 
     def camera_image(
         self, width: int | None = None, height: int | None = None
@@ -179,7 +180,7 @@ class DeebotGenericCamera(Camera):
     @property
     def name(self) -> str:
         """Return the name of this camera."""
-        return self._attr_name
+        return self._name
 
     @property
     def unique_id(self) -> str:
