@@ -1,4 +1,5 @@
 
+from ctypes.wintypes import SIZE
 import os
 import json
 from PIL import Image, ImageDraw
@@ -68,20 +69,20 @@ class MapPainter(object):
     def getCurFileName(self):
         return "painter/maps/map_" + str(self.CURRENT_MAP_ID) + ".png"
 
-    def imitNewMap(self):
+    def initNewMap(self):
         fname = self.getCurFileName()
         img = Image.new('RGB', (100, 100), color = (73, 109, 137))
         img.save(fname)
         self.save()
         
 
-    def add(self, x,y):
+    def add(self, x,y,z = 0):
         fname = self.getCurFileName()
         x += 5
         y += 5
         self.POINT_ARRAY += [(x,y)]
         mn_number = min(sorted(self.POINT_ARRAY,  key = lambda x: min(x))[0])
-        mx_number = min(sorted(self.POINT_ARRAY,  key = lambda x: max(x))[-1])
+        mx_number = max(sorted(self.POINT_ARRAY,  key = lambda x: max(x))[-1])
         if mn_number < 0:
             self.CENTER_MOVE = mn_number * -1 + 10
         else:
@@ -89,18 +90,37 @@ class MapPainter(object):
         
         self.SIZE_X = mx_number + self.CENTER_MOVE + 5
         self.SIZE_Y = mx_number + self.CENTER_MOVE + 5
-        _img = Image.new('RGB', [self.SIZE_X, self.SIZE_Y], color = (73, 109, 137))
-        draw = ImageDraw.Draw(_img)
-        for point in self.POINT_ARRAY:
-            x = point[0]
-            y = point[1]
-            draw.ellipse((x - 5 + self.CENTER_MOVE, y -5 + self.CENTER_MOVE, x + 5 + self.CENTER_MOVE, y + 5 + self.CENTER_MOVE), fill=(255, 0, 0), outline=(0, 0, 0))   
-        _img.save(fname)
+        with Image.new('RGB', [self.SIZE_X, self.SIZE_Y], color = (73, 109, 137)) as _img:
+            draw = ImageDraw.Draw(_img)
+            prev_line = -1
+            for point in self.POINT_ARRAY:
+                x1 = point[0] - 5 + self.CENTER_MOVE
+                y1 = point[1] - 5 + self.CENTER_MOVE
+                x2 = point[0] + 5 + self.CENTER_MOVE
+                y2 = point[1] + 5 + self.CENTER_MOVE
+                print(self.SIZE_X, x1, x2)
+                print(self.SIZE_Y, y1, y2)
+                draw.ellipse((x1, y1, x2, y2), fill=(255, 0, 0), outline=(0, 0, 0))   
+                if prev_line != -1:
+                    _x1, _y1 = point[0] + self.CENTER_MOVE, point[1] + self.CENTER_MOVE
+                    _x2, _y2 = self.POINT_ARRAY[prev_line][0]+ self.CENTER_MOVE, self.POINT_ARRAY[prev_line][1]+ self.CENTER_MOVE
+                    _SIZE = 15
+                    # draw.polygon((_x1-_SIZE, _y1 + _SIZE, _x1 + _SIZE, _y1 - _SIZE, _x2 - _SIZE, _y2 - _SIZE, _x2 + _SIZE, _y2 + _SIZE), fill = (255,0,0))
+                    draw.line((_x1, _y1, _x2, _y2),  fill=(255, 0, 0), width = _SIZE)
+
+                prev_line += 1
+                # break
+            _img.save(fname)
         self.save()
         pass
 
     def reset(self):
-        pass
+        if self.POINT_ARRAY == []:
+            return 0
+        self.CURRENT_MAP_ID += 1 % 100
+        self.initNewMap()
+        self.POINT_ARRAY = []
+        self.save()
 
     def getFilePath(self):
-        pass
+        return self.getCurFileName()
